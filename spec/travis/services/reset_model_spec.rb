@@ -25,7 +25,7 @@ describe Travis::Services::ResetModel do
 
     it 'sets secure_pull_request? on the parent build if secure_pull is set' do
       user.permissions.create!(repository_id: job.repository_id, pull: true)
-      service.params[:secure_pull] = true
+      service.params[:secure_pull_request] = true
       service.run
       job.source.secure_pull_request?.should == true
     end
@@ -62,7 +62,7 @@ describe Travis::Services::ResetModel do
 
     it 'sets secure_pull_request? on the build' do
       user.permissions.create!(repository_id: build.repository_id, pull: true)
-      service.params[:secure_pull] = true
+      service.params[:secure_pull_request] = true
       service.run
       build.secure_pull_request?.should == true
     end
