@@ -52,10 +52,10 @@ describe Build do
       build.secure_env_enabled?.should be_false
     end
 
-    it 'returns true if secure_pull_request is set' do
+    it 'returns true if secure_pull_request? is set' do
       build = Factory.build(:build)
       build.stubs(:pull_request?).returns(true)
-      build.stubs(:secure_pull_request).returns(true)
+      build.stubs(:secure_pull_request?).returns(true)
       build.secure_env_enabled?.should be_true
     end
   end

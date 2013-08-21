@@ -162,7 +162,7 @@ class Build < ActiveRecord::Base
   end
 
   def secure_env_enabled?
-    !pull_request? || same_repo_pull_request? || secure_pull_request
+    !pull_request? || same_repo_pull_request? || secure_pull_request?
   end
   alias addons_enabled? secure_env_enabled?
 
