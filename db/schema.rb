@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20130821202755) do
     t.integer  "pull_request_number"
     t.string   "branch"
     t.datetime "canceled_at"
-    t.boolean  "secure_pull_request"
+    t.boolean  "force_secure_env"
   end
 
   add_index "builds", ["finished_at"], :name => "index_builds_on_finished_at"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(:version => 20130821202755) do
     t.integer  "result"
     t.datetime "queued_at"
     t.datetime "canceled_at"
-    t.boolean  "secure_pull_request"
+    t.boolean  "force_secure_env"
   end
 
   add_index "jobs", ["created_at"], :name => "index_jobs_on_created_at"
