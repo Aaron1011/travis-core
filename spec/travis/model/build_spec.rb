@@ -56,7 +56,7 @@ describe Build do
       build = Factory.build(:build)
       build.stubs(:pull_request?).returns(true)
       build.stubs(:force_secure_env?).returns(true)
-      build.force_secure_env?.should be_true
+      build.secure_env_enabled?.should be_true
     end
   end
 

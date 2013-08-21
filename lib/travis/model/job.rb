@@ -41,6 +41,10 @@ class Job < ActiveRecord::Base
       where('state NOT IN (?)', [:finished, :passed, :failed, :errored, :canceled])
     end
 
+    def force_secure_env?
+      force_secure_env
+    end
+
     def owned_by(owner)
       where(owner_id: owner.id, owner_type: owner.class.to_s)
     end
@@ -62,7 +66,7 @@ class Job < ActiveRecord::Base
 
   delegate :request_id, to: :source # TODO denormalize
   delegate :pull_request?, to: :commit
-  delegate :secure_env_enabled?, :addons_enabled?, to: :source
+  delegate :same_repo_pull_request?, to: :source
 
   after_initialize do
     self.config = {} if config.nil? rescue nil
@@ -91,6 +95,11 @@ class Job < ActiveRecord::Base
   def duration
     started_at && finished_at ? finished_at - started_at : nil
   end
+
+  def secure_env_enabled?
+    !pull_request? || same_repo_pull_request? || force_secure_env?
+  end
+  alias addons_enabled? secure_env_enabled?
 
   def config=(config)
     super normalize_config(config)

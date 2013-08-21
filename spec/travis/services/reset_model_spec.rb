@@ -23,11 +23,11 @@ describe Travis::Services::ResetModel do
       service.run
     end
 
-    it 'sets force_secure_env? on the parent build if force_secure_env is set' do
+    it 'sets force_secure_env? if force_secure_env is set' do
       user.permissions.create!(repository_id: job.repository_id, pull: true)
       service.params[:force_secure_env] = true
       service.run
-      job.source.force_secure_env?.should == true
+      job.force_secure_env?.should == true
     end
 
     it 'has message: all cool' do

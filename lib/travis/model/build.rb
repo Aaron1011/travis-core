@@ -89,6 +89,10 @@ class Build < ActiveRecord::Base
       event_type == 'pull_request' ?  pull_requests : pushes
     end
 
+    def force_secure_env?
+      force_secure_env
+    end
+
     def pushes
       where(:event_type => 'push')
     end

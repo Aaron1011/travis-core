@@ -34,11 +34,7 @@ module Travis
       private
 
         def reset
-          if type == :job
-            target.source.force_secure_env? = params[:force_secure_env]
-          else
-            target.force_secure_env? = params[:force_secure_env]
-          end
+          target.force_secure_env = params[:force_secure_env]
           target.reset!(reset_matrix: type == :build)
         end
 
