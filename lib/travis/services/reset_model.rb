@@ -35,9 +35,9 @@ module Travis
 
         def reset
           if type == :job
-            target.source.secure_pull_request? = params[:secure_pull_request]
+            target.source.force_secure_env? = params[:force_secure_env]
           else
-            target.secure_pull_request? = params[:secure_pull_request]
+            target.force_secure_env? = params[:force_secure_env]
           end
           target.reset!(reset_matrix: type == :build)
         end

@@ -23,11 +23,11 @@ describe Travis::Services::ResetModel do
       service.run
     end
 
-    it 'sets secure_pull_request? on the parent build if secure_pull is set' do
+    it 'sets force_secure_env? on the parent build if force_secure_env is set' do
       user.permissions.create!(repository_id: job.repository_id, pull: true)
-      service.params[:secure_pull_request] = true
+      service.params[:force_secure_env] = true
       service.run
-      job.source.secure_pull_request?.should == true
+      job.source.force_secure_env?.should == true
     end
 
     it 'has message: all cool' do
@@ -60,11 +60,11 @@ describe Travis::Services::ResetModel do
       service.run
     end
 
-    it 'sets secure_pull_request? on the build' do
+    it 'sets force_secure_env? on the build' do
       user.permissions.create!(repository_id: build.repository_id, pull: true)
-      service.params[:secure_pull_request] = true
+      service.params[:force_secure_env] = true
       service.run
-      build.secure_pull_request?.should == true
+      build.force_secure_env?.should == true
     end
 
     it 'resets the build (given roles configuration and the user has permissions)' do
