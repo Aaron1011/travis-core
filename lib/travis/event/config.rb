@@ -2,9 +2,9 @@ module Travis
   module Event
     class Config
       DEFAULTS = {
-        start:   { email: false,   webhooks: false,   campfire: false,   hipchat: false,   irc: false,   flowdock: false },
-        success: { email: :change, webhooks: :always, campfire: :always, hipchat: :always, irc: :always, flowdock: :always },
-        failure: { email: :always, webhooks: :always, campfire: :always, hipchat: :always, irc: :always, flowdock: :always }
+        start:   { email: false,   webhooks: false,   campfire: false,   hipchat: false,   irc: false,   flowdock: false, twitter: false },
+        success: { email: :change, webhooks: :always, campfire: :always, hipchat: :always, irc: :always, flowdock: :always, twitter: :always },
+        failure: { email: :always, webhooks: :always, campfire: :always, hipchat: :always, irc: :always, flowdock: :always, twitter: :always }
       }
 
       attr_reader :payload, :build, :secure_key, :config
