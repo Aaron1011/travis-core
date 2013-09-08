@@ -3,6 +3,8 @@ module Travis
     class FindBuild < Base
       register :find_build
 
+      ALLOWED_PARAMS = ['id', 'request_id', 'repository_id', 'owner_id', 'commit_id', 'pull_request_number']
+
       def run(options = {})
         preload(result) if result
       end
@@ -30,6 +32,9 @@ module Travis
         end
 
         def result
+          params.keys.each do |k|
+            raise "Illegal key #{k}" unless ALLOWED_PARAMS.contains? k
+          end
           @result ||= scope(:build).where(params)
         end
 
