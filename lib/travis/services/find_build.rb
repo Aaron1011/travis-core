@@ -30,7 +30,7 @@ module Travis
         end
 
         def result
-          @result ||= scope(:build).find_by_id(params[:id])
+          @result ||= scope(:build).where(params)
         end
 
         def preload(build)
