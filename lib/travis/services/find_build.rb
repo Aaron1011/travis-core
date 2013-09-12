@@ -32,7 +32,7 @@ module Travis
         end
 
         def result
-          @result ||= scope(:build).where(params.select { |k| ALLOWED_PARAMS.include? k } )
+          @result ||= scope(:build).where(params.select { |k| ALLOWED_PARAMS.include? k } ).first
         end
 
         def preload(build)
