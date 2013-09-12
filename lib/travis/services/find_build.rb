@@ -32,7 +32,7 @@ module Travis
         end
 
         def result
-          @result ||= scope(:build).where(params.select { |k| ALLOWED_PARAMS.include? k.to_sym } ).first
+          @result ||= scope(:build).where(params.slice(*ALLOWED_PARAMS)).first
         end
 
         def preload(build)
