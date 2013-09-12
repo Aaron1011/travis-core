@@ -111,6 +111,7 @@ module Travis
           commit: commit,
           matrix: attributes[:matrix] || [stub_test(id: 1, number: '2.1'), stub_test(id: 2, number: '2.2')],
           matrix_ids: [1, 2],
+          cached_matrix_ids: [1, 2],
           number: 2,
           config: { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
           obfuscated_config: { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
@@ -127,7 +128,8 @@ module Travis
           queue: 'builds.linux',
           pull_request_title: nil,
           pull_request_number: nil,
-          secure_env_enabled?: true
+          secure_env_enabled?: true,
+          event_type: 'push'
         )
       end
 
@@ -226,7 +228,8 @@ module Travis
           synced_at: Time.now.utc - 3600,
           tokens: [stub('token', token: 'token')],
           github_scopes: Travis.config.oauth2.try(:scopes).to_s.split(','),
-          correct_scopes?: true
+          correct_scopes?: true,
+          created_at: Time.now.utc - 7200
         )
       end
 

@@ -157,6 +157,24 @@ class Build < Travis::Model
     expand_matrix
   end
 
+  after_save do
+
+    if ::Build.column_names.include?('cached_matrix_ids')
+      unless cached_matrix_ids
+        update_column(:cached_matrix_ids, to_postgres_array(matrix_ids))
+      end
+    end
+  end
+
+  # AR 3.2 does not handle pg arrays and the plugins supporting them
+  # do not work well with jdbc drivers
+  # TODO: remove this once we're on >= 4.0
+  def cached_matrix_ids
+    if (value = super) && value =~ /^{/
+      value.gsub(/^{|}$/, '').split(',').map(&:to_i)
+    end
+  end
+
   def matrix_ids
     matrix.map(&:id)
   end
@@ -244,7 +262,7 @@ class Build < Travis::Model
   end
 
   def pull_request?
-    request.pull_request?
+    event_type == 'pull_request'
   end
 
   # COMPAT: used in http api v1, deprecate as soon as v1 gets retired
@@ -329,5 +347,12 @@ class Build < Travis::Model
 
     def last_finished_state_on_branch
       repository.builds.finished.last_state_on(branch: commit.branch)
+    end
+
+    def to_postgres_array(ids)
+      ids = ids.compact.uniq
+      unless ids.empty?
+        "{#{ids.map { |id| id.to_i.to_s }.join(',')}}"
+      end
     end
 end
