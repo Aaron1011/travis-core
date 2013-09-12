@@ -3,7 +3,7 @@ module Travis
     class FindBuild < Base
       register :find_build
 
-      ALLOWED_PARAMS = ['id', 'request_id', 'repository_id', 'owner_id', 'commit_id', 'pull_request_number']
+      ALLOWED_PARAMS = [:id, :request_id, :repository_id, :owner_id, :commit_id, :pull_request_number]
 
       def run(options = {})
         preload(result) if result
@@ -32,7 +32,7 @@ module Travis
         end
 
         def result
-          @result ||= scope(:build).where(params.select { |k| ALLOWED_PARAMS.include? k } ).first
+          @result ||= scope(:build).where(params.select { |k| ALLOWED_PARAMS.include? k.to_sym } ).first
         end
 
         def preload(build)
