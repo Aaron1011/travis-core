@@ -32,10 +32,7 @@ module Travis
         end
 
         def result
-          params.keys.each do |k|
-            raise "Illegal key #{k}" unless ALLOWED_PARAMS.contains? k
-          end
-          @result ||= scope(:build).where(params)
+          @result ||= scope(:build).where(params.select {|k| ALLOWED_PARAMS.contains? k })
         end
 
         def preload(build)
