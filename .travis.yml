@@ -1,4 +1,5 @@
 language: ruby
+cache: bundler
 env:
   global:
     - RUBY_GC_MALLOC_LIMIT=90000000
