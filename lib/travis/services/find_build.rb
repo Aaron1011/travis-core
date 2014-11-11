@@ -32,8 +32,8 @@ module Travis
         end
 
         def result
-          if params[:pull_request_number]
-            @result ||= scope(:build).find_by_pull_request_number(params[:pull_request_number])
+          if params[:pull_request_number] && params[:repository_id]
+            @result ||= scope(:repository).find(params[:repository_id]).builds.find_by_pull_request_number(params[:pull_request_number])
           else
             @result ||= scope(:build).find_by_id(params[:id])
           end

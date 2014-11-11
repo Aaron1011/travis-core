@@ -7,7 +7,7 @@ describe Travis::Services::FindBuild do
   let!(:build)     { Factory(:build, :repository => repo, :state => :finished, :number => 1) }
   let!(:build_pr)  { Factory(:build_pr, :repository => repo, :state => :finished, :number => 1) }
   let(:params)     { { :id => build.id } }
-  let(:params_pr)  { { :pull_request_number => build_pr.pull_request_number } }
+  let(:params_pr)  { { :pull_request_number => build_pr.pull_request_number, :repository_id => repo.id } }
   let(:service)    { described_class.new(stub('user'), params) }
   let(:service_pr) { described_class.new(stub('user'), params_pr) }
 
