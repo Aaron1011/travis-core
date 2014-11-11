@@ -3,14 +3,21 @@ require 'spec_helper'
 describe Travis::Services::FindBuild do
   include Support::ActiveRecord
 
-  let(:repo)    { Factory(:repository, :owner_name => 'travis-ci', :name => 'travis-core') }
-  let!(:build)  { Factory(:build, :repository => repo, :state => :finished, :number => 1) }
-  let(:params)  { { :id => build.id } }
-  let(:service) { described_class.new(stub('user'), params) }
+  let(:repo)       { Factory(:repository, :owner_name => 'travis-ci', :name => 'travis-core') }
+  let!(:build)     { Factory(:build, :repository => repo, :state => :finished, :number => 1) }
+  let!(:build_pr)  { Factory(:build_pr, :repository => repo, :state => :finished, :number => 1) }
+  let(:params)     { { :id => build.id } }
+  let(:params_pr)  { { :pull_request_number => build_pr.pull_request_number } }
+  let(:service)    { described_class.new(stub('user'), params) }
+  let(:service_pr) { described_class.new(stub('user'), params_pr) }
 
   describe 'run' do
     it 'finds a build by the given id' do
       service.run.should == build
+    end
+
+    it 'finds a build by the given pull request number' do
+      service_pr.run.should == build_pr
     end
 
     it 'does not raise if the build could not be found' do

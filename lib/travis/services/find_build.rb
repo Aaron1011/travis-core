@@ -32,7 +32,11 @@ module Travis
         end
 
         def result
-          @result ||= scope(:build).find_by_id(params[:id])
+          if params[:pull_request_number]
+            @result ||= scope(:build).find_by_pull_request_number(params[:pull_request_number])
+          else
+            @result ||= scope(:build).find_by_id(params[:id])
+          end
         end
 
         def preload(build)

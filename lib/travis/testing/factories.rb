@@ -12,6 +12,17 @@ FactoryGirl.define do
     state :passed
   end
 
+  factory :build_pr, :class => Build do
+    owner { User.first || Factory(:user) }
+    repository { Repository.first || Factory(:repository) }
+    association :request, :factory => :request_pr
+    association :commit
+    started_at { Time.now.utc }
+    finished_at { Time.now.utc }
+    number 1
+    state :passed
+  end
+
   factory :commit do
     commit '62aae5f70ceee39123ef'
     branch 'master'
@@ -44,6 +55,14 @@ FactoryGirl.define do
     association :commit
     token 'the-token'
     event_type 'push'
+  end
+
+  factory :request_pr, :class => Request do
+    repository { Repository.first || Factory(:repository) }
+    association :commit
+    token 'the-token'
+    event_type 'pull_request'
+    payload { {'pull_request' => {'title' => 'test', 'number' => 1}} }
   end
 
   factory :repository do
